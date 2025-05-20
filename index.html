@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Using my own UI in PDF.js</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css">
+
+</head>
+<body>
+    <div class="toolbar">
+        <div id="sideview">
+            <button id="sideviewtoggle" class="btn">
+                <img src="/icons/pagesview.svg">
+            </button>
+        </div>
+        <div id="lefttools" class="extratools">
+            <input type="text" id="filename" value="Filename" class="inputcontainer">
+            <button type="button" id="presentation-btn" class="btn">
+                <img src="/icons/presentation.svg">
+            </button>
+            <button type="button" id="hand-btn" class="btn">
+                <img src="/icons/grab.svg">
+            </button>
+            <div id="ttsreader">
+                <button type="button" id="ttsreader-btn" class="btn">
+                    <img src="/icons/speaker.svg">
+                </button>
+                <div class="links"></div>
+            </div>
+        </div>
+        <div id="centraltools">
+            <button type="button" id="previouspage-btn" class="btn">
+                <img src="/icons/previous.svg">
+            </button>
+            <button type="button" id="nextpage-btn" class="btn">
+                <img src="/icons/next.svg">
+            </button>
+            <div id="pagecounter" value="1">
+                <input type="number" id="pageinput" class="inputcontainer"> / 
+                <span id="totalpages" class="counter"></span>
+            </div>
+            <button type="button" id="search-btn" class="btn">
+                <img src="/icons/search.svg">
+            </button>
+            <div id="searchingcontainer" class="toolspopup">
+                <input type="text" id="searchwords" class="inputcontainer">
+                <span id="navwords" sytle="padding-top:15px;">
+                    <button type="button" id="previousresult-btn" class="btn">
+                        <img src="icons/previous.svg">
+                    </button>
+                    <button type="button" id="nextresult-btn" class="btn">
+                        <img src="/icons/next.svg">
+                    </button>
+                </span>
+                <span id="searchingtools" style="padding-top:0%;">
+                    <button type="button" id="allhighlighter-btn" class="btn">Highlight All</button>
+                    <button type="button" id="allunderliner-btn" class="btn">Underline All</button>
+                </span>
+            </div>
+            <button id="zoomin-btn" class="btn">
+                <img src="/icons/plus.svg">
+            </button>
+            <button type="button" id="zoomout-btn" class="btn">
+                <img src="/icons/minus.svg">
+            </button>
+            <button type="button" id="rotate-left" class="btn">
+                <img src="/icons/rotate-left.svg">
+            </button>
+            <button type="button" id="rotate-btn" class="btn">
+                <img src="/icons/rotate.svg">
+            </button>
+            <button type="button" id="rotate-right" class="btn">
+                <img src="/icons/rotate-right.svg">
+            </button>
+        </div>
+        <div id="righttools" class="utilities">
+            <button type="button" id="highlight-btn" class="btn">
+                <img src="/icons/highlighter.svg">
+            </button>
+            <div id="highlighter" class="toolspopup">
+                <span id="highlighter-customcolorcontainer" class="customcolors">
+                    <label for="highlighter-customcolor" class="explanation">Custom Color:</label>
+                    <input type="color" id="highlighter-customcolor" class="colorselector">
+                </span>
+                <div id="defaultcolors" class="highlightcolors">
+                    <button type="button" class="tools-color" data-color="yellow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="yellow"></circle></svg>
+                    </button>
+                    <button type="button" class="tools-color" data-color="green">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="green"></circle></svg>
+                    </button>
+                    <button type="button" class="tools-color" data-color="blue">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="blue"></circle></svg>
+                    </button>
+                    <button type="button" class="tools-color" data-color="pink">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="pink"></circle></svg>
+                    </button>
+                    <button type="button" class="tools-color" data-color="red">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="red"></circle></svg>
+                    </button>
+                    <div id="customizedcolors" class="highlightcolors"></div>
+                </div>
+                <div id="highlightthicknesscontainer" class="thicknessbar">
+                    <label for="highlightthickness" class="explanation">Thickness:</label>
+                    <input type="range" id="highlightthickness" class="thicknessselector">
+                </div>
+            </div>
+            <button type="button" id="underline-btn" class="btn">
+                <img src="/icons/underline.svg">
+            </button>
+            <div id="underliner" class="toolspopup">
+                <span id="underline-customcolorcontainer" class="customcolors">
+                    <label for="underliner-customcolor" class="explanation">Custom Color:</label>
+                    <input type="color" id="underliner-customcolor" class="colorselector">
+                </span>
+                <div id="defaultcolorsunderline" class="underlinescolors">
+                    <button type="button" class="tools-color" data-color="yellow">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="yellow"></circle></svg>
+                    </button>
+                    <button type="button" class="tools-color" data-color="green">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="green"></circle></svg>
+                    </button>
+                    <button type="button" class="tools-color" data-color="blue">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="blue"></circle></svg>
+                    </button>
+                    <button type="button" class="tools-color" data-color="pink">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="pink"></circle></svg>
+                    </button>
+                    <button type="button" class="tools-color" data-color="red">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="red"></circle></svg>
+                    </button>
+                    <div id="customizedcolorsunderline" class="underlinecolors"></div>
+                </div>
+                <div id="underlinethicknesscontainer" class="thicknessbar">
+                    <label for="underlinethickness" class="explanation">Thickness:</label>
+                    <input type="range" id="underlinethickness" class="thicknessselector">
+                </div>
+            </div>
+            <button type="button" id="image-btn" class="btn">
+                <img src="/icons/addpicture.svg">
+            </button>
+            <div id="imagecontainer" class="toolspopup">
+                <input type="file" id="imagefile" accept="image/*" class="inputcontainer">
+            </div>
+            <button type="button" id="sign-btn" class="btn">
+                <img src="/icons/sign.svg">
+            </button>
+        </div>
+    </div>
+    
+    <div style="position: relative;" id="viewer">
+    <canvas id="pdf-canvas"></canvas>
+    <div id="text-layer" class="textLayer" style="position: absolute; top: 0px; left: 0; "></div>
+    </div>
+
+    <script type="module" src="main.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      </script>
+      
+</body>
+</html>
