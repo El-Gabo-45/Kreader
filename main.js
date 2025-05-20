@@ -9,7 +9,6 @@ const rotateLeftBtn = document.getElementById("rotate-left");
 const rotateRightBtn = document.getElementById("rotate-right");
 const pageContainer = document.getElementById('page-container');
 
-
 // This is to hear the buttons
 const highlightBtn = document.getElementById("highlight-btn");
 const underlineBtn = document.getElementById("underline-btn");
@@ -18,8 +17,7 @@ const signBtn = document.getElementById("sign-btn");
 const searchBtn = document.getElementById("search-btn")
 const rotateBtn = document.getElementById("rotate-btn")
 
-const botones = document.querySelectorAll("button");
-let botonActivo = null;
+const bottons = document.querySelectorAll("button");
 
 const highlighterCustomColor = document.getElementById("highlighter-customcolor");
 const underlinerCustomColor = document.getElementById("underliner-customcolor");
@@ -44,6 +42,7 @@ const canvasContainer =document.getElementById('pdf-canvas')
 
 const pageInput = document.getElementById('pageinput');
 
+let activeButton = null;
 let pdfDoc = null;
 let currentPage = 1;
 let rendering = false;
@@ -66,11 +65,11 @@ imageBtn.addEventListener("click", () => togglePopup(imagecontainer));
 searchBtn.addEventListener("click", () => togglePopup(searchingcontainer));
 
 
-botones.forEach(boton => {
-    boton.addEventListener("click", () => {
-        if (botonActivo) botonActivo.classList.remove("activo");
-        boton.classList.add("activo");
-        botonActivo = boton;
+bottons.forEach(button => {
+    button.addEventListener("click", () => {
+        if (activeButton) activeButton.classList.remove("activo");
+        button.classList.add("activo");
+        activeButton = button;
     });
 });
 
@@ -121,8 +120,7 @@ function extractFileNameFromUrl(url) {
     return decodeURIComponent(lastPart.split('?')[0]);
 }
 
-
-// Cargar PDF y renderizar primera página
+// Upload PDF and render the first page
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 pdfjsLib.getDocument(url).promise.then(pdf => {
@@ -197,7 +195,7 @@ pageInput.addEventListener('change', () => {
         currentPage = desiredPage;
         renderPage(currentPage);
     } else {
-        // Si el valor es inválido, resetear el input al valor actual
+        // If the value is invalid reset the input to the current value
         pageInput.value = currentPage;
         alert(`Por favor ingresa un número entre 1 y ${pdfDoc.numPages}`);
     }
@@ -209,7 +207,6 @@ function rotateCanvas(angle) {
     pdfViewer.style.transform = `rotate(${rotationAngle}deg)`;
 }
 
-// Ejemplo de uso:
 rotateLeftBtn.addEventListener("click", () => rotateCanvas(-90));
 rotateRightBtn.addEventListener("click", () => rotateCanvas(90));
 rotateBtn.addEventListener("click", () => rotateCanvas(180));

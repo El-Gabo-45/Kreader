@@ -173,6 +173,7 @@ body {
     height:100%;
     border:var(--main-input-border);
     box-sizing:border-box;
+    font-size:var(--main-font);
 }
 #searchingcontainer, #imagecontainer {
     box-sizing:border-box;
