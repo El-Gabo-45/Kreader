@@ -11,37 +11,37 @@
 <body>
     <div class="toolbar">
         <div id="sideview">
-            <button id="sideviewtoggle" class="btn">
+            <button id="sideviewtoggle" class="btn" title="Pages">
                 <img src="/icons/pagesview.svg">
             </button>
         </div>
         <div id="lefttools" class="extratools">
             <input type="text" id="filename" value="Filename" class="inputcontainer">
-            <button type="button" id="presentation-btn" class="btn">
+            <button type="button" id="presentation-btn" class="btn" title="Presentation">
                 <img src="/icons/presentation.svg">
             </button>
-            <button type="button" id="hand-btn" class="btn">
+            <button type="button" id="hand-btn" class="btn" title="Grab">
                 <img src="/icons/grab.svg">
             </button>
             <div id="ttsreader">
-                <button type="button" id="ttsreader-btn" class="btn">
+                <button type="button" id="ttsreader-btn" class="btn" title="Read outloud">
                     <img src="/icons/speaker.svg">
                 </button>
                 <div class="links"></div>
             </div>
         </div>
         <div id="centraltools">
-            <button type="button" id="previouspage-btn" class="btn">
+            <button type="button" id="previouspage-btn" class="btn" title="Previous Page">
                 <img src="/icons/previous.svg">
             </button>
-            <button type="button" id="nextpage-btn" class="btn">
+            <button type="button" id="nextpage-btn" class="btn" title="Next page">
                 <img src="/icons/next.svg">
             </button>
             <div id="pagecounter" value="1">
                 <input type="number" id="pageinput" class="inputcontainer"> / 
                 <span id="totalpages" class="counter"></span>
             </div>
-            <button type="button" id="search-btn" class="btn">
+            <button type="button" id="search-btn" class="btn" title="Search words">
                 <img src="/icons/search.svg">
             </button>
             <div id="searchingcontainer" class="toolspopup">
@@ -57,24 +57,24 @@
                     <button type="button" id="allunderliner-btn" class="newbtn-nav">Underline All</button>
                 </span>
             </div>
-            <button id="zoomin-btn" class="btn">
+            <button id="zoomin-btn" class="btn" title="Zoom in">
                 <img src="/icons/plus.svg">
             </button>
-            <button type="button" id="zoomout-btn" class="btn">
+            <button type="button" id="zoomout-btn" class="btn" title="Zoom out">
                 <img src="/icons/minus.svg">
             </button>
-            <button type="button" id="rotate-left" class="btn">
+            <button type="button" id="rotate-left" class="btn" title="Rotate to the left">
                 <img src="/icons/rotate-left.svg">
             </button>
-            <button type="button" id="rotate-btn" class="btn">
+            <button type="button" id="rotate-btn" class="btn" title="Flip">
                 <img src="/icons/rotate.svg">
             </button>
-            <button type="button" id="rotate-right" class="btn">
+            <button type="button" id="rotate-right" class="btn" title="Rotate to the right">
                 <img src="/icons/rotate-right.svg">
             </button>
         </div>
         <div id="righttools" class="utilities">
-            <button type="button" id="highlight-btn" class="btn">
+            <button type="button" id="highlight-btn" class="btn" title="Highlight">
                 <img src="/icons/highlighter.svg">
             </button>
             <div id="highlighter" class="toolspopup">
@@ -105,7 +105,7 @@
                     <input type="range" id="highlightthickness" class="thicknessselector">
                 </div>
             </div>
-            <button type="button" id="underline-btn" class="btn">
+            <button type="button" id="underline-btn" class="btn" title="Underline">
                 <img src="/icons/underline.svg">
             </button>
             <div id="underliner" class="toolspopup">
@@ -136,7 +136,7 @@
                     <input type="range" id="underlinethickness" class="thicknessselector">
                 </div>
             </div>
-            <button type="button" id="image-btn" class="btn">
+            <button type="button" id="image-btn" class="btn" title="Upload an image">
                 <img src="/icons/addpicture.svg">
             </button>
             <div id="imagecontainer" class="toolspopup">
@@ -146,7 +146,7 @@
                 </label>
                 <label for="imagefile" id="textlabel">Upload image</label>             
             </div>
-            <button type="button" id="sign-btn" class="btn">
+            <button type="button" id="sign-btn" class="btn" title="Add a sign">
                 <img src="/icons/sign.svg">
             </button>
         </div>
