@@ -91,6 +91,24 @@ body {
     height:20px;
     width:150px;
 }
+.newbtn-nav {
+    padding:none;
+    padding-top:0;
+    padding-bottom:0;
+    cursor:pointer;
+    font-size:16px;
+    border:var(--main-btn-border);
+}
+.newbtn {
+    top:6px;
+    padding-top: 0cap;
+    margin-bottom:0;
+    align-items:center;
+    border:none;
+    background:none;
+    cursor:pointer;
+    position:relative;
+}
 #centraltools {
     position:relative;
     display:flex;
@@ -155,13 +173,6 @@ body {
     height:100%;
     border:var(--main-input-border);
     box-sizing:border-box;
-}
-#searchingtools {
-    font-size:20px
-}
-#navwords {
-    background:none;
-    padding-top:15ch;
 }
 #searchingcontainer, #imagecontainer {
     box-sizing:border-box;
