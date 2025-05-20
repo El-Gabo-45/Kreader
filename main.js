@@ -53,7 +53,7 @@ let rotationAngle = 0;
 
 
 function togglePopup(target) {
-    [highlighter, underliner, imagecontainer, searchingcontainer, imagecontainer].forEach(popup => {
+    [highlighter, underliner, imagecontainer, imagecontainer].forEach(popup => {
         if (popup !== target) popup.style.display = "none";
     });
     target.style.display = (target.style.display === "none" || target.style.display === "") ? "block" : "none";
