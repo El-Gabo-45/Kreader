@@ -46,7 +46,7 @@ let activeButton = null;
 let pdfDoc = null;
 let currentPage = 1;
 let rendering = false;
-let zoomLevel = 1.0;
+let currentScale = 1.5;
 let rotation = 0;
 let filename = '';
 let rotationAngle = 0;
@@ -131,12 +131,11 @@ pdfjsLib.getDocument(url).promise.then(pdf => {
     filenameInput.value = filename;
 });
 
-function renderPage(num) {
+function renderPage(num, scale = currentScale) {
     if (rendering) return;
     rendering = true;
 
     pdfDoc.getPage(num).then(page => {
-        const scale = 1.5;
         const viewport = page.getViewport({ scale: scale, rotation: rotation});
 
         canvas.height = viewport.height;
@@ -181,14 +180,15 @@ nextBtn.addEventListener('click', () => {
 });
 
 zoomInBtn.addEventListener('click', () => {
-    zoomLevel = Math.min(3, zoomLevel + 0.1);
-    pdfViewer.style.transform = `scale(${zoomLevel})`;
+  currentScale = Math.min(currentScale + 0.1, 3.0);
+  renderPage(currentPage, currentScale);
 });
 
 zoomOutBtn.addEventListener('click', () => {
-    zoomLevel = Math.max(0.5, zoomLevel - 0.1);
-    pdfViewer.style.transform = `scale(${zoomLevel})`;
+  currentScale = Math.max(currentScale - 0.1, 0.5);
+  renderPage(currentPage, currentScale);
 });
+
 pageInput.addEventListener('change', () => {
     let desiredPage = parseInt(pageInput.value);
     if (!isNaN(desiredPage) && desiredPage >= 1 && desiredPage <= pdfDoc.numPages) {
