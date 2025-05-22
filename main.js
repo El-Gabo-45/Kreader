@@ -99,19 +99,28 @@ function createColorButton(color) {
 
     svg.appendChild(circle);
     button.appendChild(svg);
-
     return button;
 }
 
 highlighterCustomColor.addEventListener("change", function () {
     const color = highlighterCustomColor.value;
     const button = createColorButton(color);
+    const totalColors = highlighter.querySelectorAll(".tools-color").length;
+    if (totalColors > 9) {
+        alert("You can't add more than 10 colors");
+        return;
+    }
     highlighterCustomContainer.appendChild(button);
 });
 
 underlinerCustomColor.addEventListener("change", function () {
     const color = underlinerCustomColor.value;
     const button = createColorButton(color);
+    const totalColors = underliner.querySelectorAll(".tools-color").length;
+    if (totalColors > 19) {
+        alert("You can't add more than 20 colors");
+        return;
+    }
     underlineCustomContainer.appendChild(button);
 });
 function extractFileNameFromUrl(url) {
