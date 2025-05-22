@@ -39,8 +39,11 @@ const zoomInBtn = document.getElementById('zoomin-btn');
 const zoomOutBtn = document.getElementById('zoomout-btn');
 const pdfViewer = document.getElementById('viewer');
 const canvasContainer =document.getElementById('pdf-canvas')
-
 const pageInput = document.getElementById('pageinput');
+const toggleBtn = document.getElementById('toggle-theme');
+const iconMoon = document.getElementById('icon-moon');
+const iconSun = document.getElementById('icon-sun');
+const prefersDarkMedia = window.matchMedia('(prefers-color-scheme: dark)');
 
 let activeButton = null;
 let pdfDoc = null;
@@ -51,6 +54,39 @@ let rotation = 0;
 let filename = '';
 let rotationAngle = 0;
 
+function setTheme(isDark) {
+  document.body.classList.toggle('dark-mode', isDark);
+  iconSun.style.display = isDark ? 'block' : 'none';
+  iconMoon.style.display = isDark ? 'none' : 'block';
+}
+
+function applyThemeFromSource(source = 'auto') {
+  const userChoice = localStorage.getItem('theme');
+  if (userChoice === 'dark') {
+    setTheme(true);
+  } else if (userChoice === 'light') {
+    setTheme(false);
+  } else {
+    setTheme(prefersDarkMedia.matches);
+  }
+}
+
+prefersDarkMedia.addEventListener('change', (e) => {
+  const userChoice = localStorage.getItem('theme');
+  if (!userChoice) {
+    setTheme(e.matches);
+  }
+});
+
+toggleBtn.addEventListener('click', () => {
+  const isDark = document.body.classList.contains('dark-mode');
+  const newIsDark = !isDark;
+
+  setTheme(newIsDark);
+  localStorage.setItem('theme', newIsDark ? 'dark' : 'light');
+});
+
+applyThemeFromSource();
 
 function togglePopup(target) {
     [highlighter, underliner, imagecontainer, imagecontainer].forEach(popup => {

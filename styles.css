@@ -1,19 +1,30 @@
 :root {
-    --main-bg-light-color: #f3edeb;
-    --main-bg-dark-color: #0f0e0e;
-    --main-text-color: #333;
-    --main-font: 'Arial', sans-serif;
+    --main-bg-color: #f3edeb;
+    --main-body-bg-color: #fff;
+    --main-text-color: #000000;
+    --main-font: 'Arial';
     --main-font-size: 16px;
     --main-btn-border: none;
     --main-input-border: 1px solid #0f0e0e;
     --scale-factor: 1.5;
 }
+body.dark-mode {
+    --main-bg-color: #0f0e0e;
+    --main-body-bg-color: #2c2b2b;
+    --main-text-color: white;
+    --main-input-border: 1px solid #f3edeb;
+}
 body {
     display: flex;
     padding-top: 40px;
+    background-color: var(--main-body-bg-color);
+    color: var(--main-text-color);
+    font-family: var(--main-font);
+    font-size: var(--main-font-size);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 .toolbar {
-    background-color: var(--main-bg-light-color);
+    background-color: var(--main-bg-color);
     display:flex;
     align-items:center;
     position:fixed;
@@ -70,7 +81,7 @@ body {
 .toolspopup {
     position:absolute;
     top:50px;
-    background:var(--main-bg-light-color);
+    background:var(--main-bg-color);
     border:1px solid #ccc;
     padding:10px;
     box-shadow:0 4px 10px rgba(0, 0, 0, 0.1);
@@ -87,13 +98,16 @@ body {
     align-items:center;
     align-content: center;
     padding:none;
+    background: none;
+    color: var(--main-text-color);
 }
 .inputcontainer {
-    background:var(--main-bg-light-color);
+    background:var(--main-body-bg-color);
     border:var(--main-input-border);
     height:20px;
     width:150px;
     height:fit-content;
+    color: var(--main-text-color);
 }
 .newbtn-nav {
     padding:none;
@@ -102,6 +116,7 @@ body {
     cursor:pointer;
     font-size:16px;
     border:var(--main-btn-border);
+    color: var(--main-text-color);
 }
 .newbtn {
     top:6px;
@@ -112,6 +127,7 @@ body {
     background:none;
     cursor:pointer;
     position:relative;
+    color: var(--main-text-color);
 }
 .viewerbox {
     justify-content: center;
@@ -131,6 +147,7 @@ body {
 #filename {
     width:100px;
     height:20px;
+    color: var(--main-text-color);
 }
 #underliner {
     right:85px;
@@ -148,10 +165,12 @@ body {
     justify-content:center;
     align-items:center;
     font-size:var(--main-font-size);
+    color: var(--main-text-color);
 }
 #explanation {
     display:flex;
     width:80px;
+    color: var(--main-text-color);
 }
 #defaultcolors, #customizedcolors {
     display:flex;
@@ -163,6 +182,8 @@ body {
     height:20px;
     border: var(--main-input-border);
     text-align: right;
+    color: var(--main-text-color);
+    background: var(--main-body-bg-color);
 }
 #searchingcontainer {
     position:absolute;
@@ -171,12 +192,15 @@ body {
     height:40px;
     font-size:30px;
     padding-top:0%;
+    background: var(--main-bg-color)
 }
 #searchwords {
     height:100%;
     border:var(--main-input-border);
     box-sizing:border-box;
     font-size:var(--main-font);
+    color: var(--main-text-color);
+    background: var(--main-body-bg-color);
 }
 #searchingcontainer {
     box-sizing:border-box;
@@ -211,6 +235,7 @@ body {
     height:fit-content;
     margin-left:0;
     bottom:none;
+    color: var(--main-text-color);
 }
 #textlabel {
     box-sizing:border-box;
@@ -222,4 +247,28 @@ body {
     margin-top:auto;
     position:relative;
     padding-right:3px;
+    color: var(--main-text-color);
+}
+body.dark-mode svg,
+body.dark-mode svg path {
+    stroke: white !important;
+}
+body:not(.dark-mode) svg,
+body:not(.dark-mode) svg path {
+    stroke: black !important;
+}
+.btn svg {
+    pointer-events: none;
+}
+.theme-toggle-btn svg {
+    display: none;
+    stroke: var(--main-text-color);
+}
+
+body.dark-mode #icon-sun {
+    display: block;
+}
+
+body:not(.dark-mode) #icon-moon {
+    display: block;
 }
