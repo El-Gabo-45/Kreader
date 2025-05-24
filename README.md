@@ -1,3 +1,5 @@
+This is a modolue of a more complite reader, for the moment is just an experiment, so theres a lot features that aren´t still added such as search words, hightlight even though there's the interface, and others, I'm just learning web develoment so the code obviously is not quite good but in the future I'm going to add a lot of new features
+
 This is a prebuild and a module of the complite app, this is not finished yet
 ## License
 
