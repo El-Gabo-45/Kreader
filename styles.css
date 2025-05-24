@@ -75,7 +75,6 @@ body {
     padding:10px;
     position:relative;
     margin-right:10px;
-    gap:7px;
     margin-left:auto;
 }
 .toolspopup {
@@ -271,4 +270,7 @@ body.dark-mode #icon-sun {
 
 body:not(.dark-mode) #icon-moon {
     display: block;
+}
+.newbtn-nav {
+    background: none;
 }
