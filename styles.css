@@ -136,6 +136,7 @@ body {
     transform-origin:center center;
     border: none;
     height: 100%;
+    position: relative;
 }
 #centraltools {
     position:relative;

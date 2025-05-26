@@ -7,8 +7,7 @@ const viewercontainer = document.getElementById("viewer")
 const filenameInput = document.getElementById("filename");
 const rotateLeftBtn = document.getElementById("rotate-left");
 const rotateRightBtn = document.getElementById("rotate-right");
-const pageContainer = document.getElementById('page-container');
-
+const imageInput = document.getElementById("imagefile");
 // This is to hear the buttons
 const highlightBtn = document.getElementById("highlight-btn");
 const underlineBtn = document.getElementById("underline-btn");
@@ -53,6 +52,8 @@ let currentScale = 1.5;
 let rotation = 0;
 let filename = '';
 let rotationAngle = 0;
+let hasConfirmedOnce = false;
+let hasConfirmedOnceUnderline = false;
 
 function setTheme(isDark) {
   document.body.classList.toggle('dark-mode', isDark);
@@ -109,10 +110,11 @@ bottons.forEach(button => {
     });
 });
 
-function createColorButton(color) {
+function createColorButton(color, isCustom = false) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "tools-color";
+    if (isCustom) button.classList.add("tools-color--custom");
     button.setAttribute("data-color", color);
 
     const svgNS = "http://www.w3.org/2000/svg";
@@ -140,22 +142,30 @@ function createColorButton(color) {
 
 highlighterCustomColor.addEventListener("change", function () {
     const color = highlighterCustomColor.value;
-    const button = createColorButton(color);
-    const totalColors = highlighter.querySelectorAll(".tools-color").length;
-    if (totalColors > 9) {
-        alert("You can't add more than 10 colors");
-        return;
+    const button = createColorButton(color, true); 
+    const customButtons = highlighterCustomContainer.querySelectorAll(".tools-color--custom");
+    if (customButtons.length >= 5) { 
+        if (!hasConfirmedOnce) {
+            const confirmed = confirm("You've reached the limit of custom colors. Do you want to start replacing the oldest ones?");
+            if (!confirmed) return;
+            hasConfirmedOnce = true;
+        }
+        customButtons[0].remove(); 
     }
     highlighterCustomContainer.appendChild(button);
 });
 
 underlinerCustomColor.addEventListener("change", function () {
     const color = underlinerCustomColor.value;
-    const button = createColorButton(color);
-    const totalColors = underliner.querySelectorAll(".tools-color").length;
-    if (totalColors > 19) {
-        alert("You can't add more than 20 colors");
-        return;
+    const button = createColorButton(color, true); // isCustom = true
+    const customButtons = underlineCustomContainer.querySelectorAll(".tools-color--custom");
+    if (customButtons.length >= 5) {
+        if (!hasConfirmedOnceUnderline) {
+            const confirmed = confirm("You've reached the limit of custom underline colors. Do you want to start replacing the oldest ones?");
+            if (!confirmed) return;
+            hasConfirmedOnceUnderline = true;
+        }
+        customButtons[0].remove(); // Elimina el más antiguo
     }
     underlineCustomContainer.appendChild(button);
 });
@@ -164,7 +174,6 @@ function extractFileNameFromUrl(url) {
     const lastPart = parts[parts.length - 1];
     return decodeURIComponent(lastPart.split('?')[0]);
 }
-
 // Upload PDF and render the first page
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -269,3 +278,49 @@ function rotateContainer(direction) {
     pdfViewer.style.transform = `rotate(${visualRotation}deg)`;
     pdfViewer.style.transformOrigin = 'center center';
 }
+document.getElementById("imagefile").onchange = function() {
+    const ul = document.getElementById("viewer");
+    const image = document.createElement("img");
+    const read = new FileReader();
+    const file = this.files[0];
+
+    read.onload = function(){
+        const url = this.result;
+        image.width = 250;
+        image.src = url;
+
+        // Estilos para que se vea y se pueda mover
+        image.style.position = "absolute";
+        image.style.top = "100px";
+        image.style.left = "100px";
+        image.style.cursor = "move";
+        image.style.zIndex = 1000;
+
+        // Hacer la imagen arrastrable
+        image.addEventListener("mousedown", function (e) {
+            const img = this;
+            let shiftX = e.clientX - img.getBoundingClientRect().left;
+            let shiftY = e.clientY - img.getBoundingClientRect().top;
+
+            function moveAt(pageX, pageY) {
+                img.style.left = pageX - shiftX + "px";
+                img.style.top = pageY - shiftY + "px";
+            }
+
+            function onMouseMove(e) {
+                moveAt(e.pageX, e.pageY);
+            }
+
+            document.addEventListener("mousemove", onMouseMove);
+
+            document.addEventListener("mouseup", function onMouseUp() {
+                document.removeEventListener("mousemove", onMouseMove);
+                document.removeEventListener("mouseup", onMouseUp);
+            });
+        });
+
+        ul.appendChild(image);
+    };
+
+    read.readAsDataURL(file);
+};
