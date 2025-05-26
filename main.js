@@ -278,49 +278,176 @@ function rotateContainer(direction) {
     pdfViewer.style.transform = `rotate(${visualRotation}deg)`;
     pdfViewer.style.transformOrigin = 'center center';
 }
-document.getElementById("imagefile").onchange = function() {
+let selectedContainer = null; // global
+
+document.getElementById("imagefile").onchange = function () {
     const ul = document.getElementById("viewer");
-    const image = document.createElement("img");
-    const read = new FileReader();
     const file = this.files[0];
+    const read = new FileReader();
 
-    read.onload = function(){
+    read.onload = function () {
         const url = this.result;
-        image.width = 250;
+
+        // Contenedor
+        const container = document.createElement("div");
+        container.style.position = "absolute";
+        container.style.top = "100px";
+        container.style.left = "100px";
+        container.style.zIndex = 1000;
+        container.style.display = "inline-block";
+        container.style.userSelect = "none";
+
+        // Imagen
+        const image = document.createElement("img");
         image.src = url;
+        image.style.width = "250px";
+        image.style.height = "auto";
+        image.style.display = "block";
+        image.style.pointerEvents = "auto";
+        image.style.userSelect = "none";
 
-        // Estilos para que se vea y se pueda mover
-        image.style.position = "absolute";
-        image.style.top = "100px";
-        image.style.left = "100px";
-        image.style.cursor = "move";
-        image.style.zIndex = 1000;
+        // Resizers
+        const resizerStyle = `
+            width: 10px;
+            height: 10px;
+            background: white;
+            border: 1px solid #666;
+            position: absolute;
+            z-index: 10;
+        `;
 
-        // Hacer la imagen arrastrable
-        image.addEventListener("mousedown", function (e) {
-            const img = this;
-            let shiftX = e.clientX - img.getBoundingClientRect().left;
-            let shiftY = e.clientY - img.getBoundingClientRect().top;
+        const positions = [
+            { name: "top-left", x: "0%", y: "0%", cursor: "nwse-resize" },
+            { name: "top", x: "50%", y: "0%", cursor: "ns-resize" },
+            { name: "top-right", x: "100%", y: "0%", cursor: "nesw-resize" },
+            { name: "left", x: "0%", y: "50%", cursor: "ew-resize" },
+            { name: "right", x: "100%", y: "50%", cursor: "ew-resize" },
+            { name: "bottom-left", x: "0%", y: "100%", cursor: "nesw-resize" },
+            { name: "bottom", x: "50%", y: "100%", cursor: "ns-resize" },
+            { name: "bottom-right", x: "100%", y: "100%", cursor: "nwse-resize" },
+        ];
+
+        positions.forEach(pos => {
+            const resizer = document.createElement("div");
+            resizer.className = "resizer";
+            resizer.dataset.position = pos.name;
+            resizer.style.cssText = resizerStyle;
+            resizer.style.left = pos.x;
+            resizer.style.top = pos.y;
+            resizer.style.transform = "translate(-50%, -50%)";
+            resizer.style.cursor = pos.cursor;
+
+            resizer.addEventListener("mousedown", function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+
+                const startX = e.pageX;
+                const startY = e.pageY;
+                const startWidth = image.offsetWidth;
+                const startHeight = image.offsetHeight;
+                const startLeft = container.offsetLeft;
+                const startTop = container.offsetTop;
+
+                function onMouseMove(ev) {
+                    const dx = ev.pageX - startX;
+                    const dy = ev.pageY - startY;
+
+                    let newWidth = startWidth;
+                    let newHeight = startHeight;
+                    let newLeft = startLeft;
+                    let newTop = startTop;
+
+                    if (pos.name.includes("right")) newWidth = startWidth + dx;
+                    if (pos.name.includes("left")) {
+                        newWidth = startWidth - dx;
+                        newLeft = startLeft + dx;
+                    }
+                    if (pos.name.includes("bottom")) newHeight = startHeight + dy;
+                    if (pos.name.includes("top")) {
+                        newHeight = startHeight - dy;
+                        newTop = startTop + dy;
+                    }
+
+                    if (newWidth > 30) {
+                        image.style.width = newWidth + "px";
+                        container.style.left = newLeft + "px";
+                    }
+
+                    if (newHeight > 30) {
+                        image.style.height = newHeight + "px";
+                        container.style.top = newTop + "px";
+                    }
+                }
+
+                function onMouseUp() {
+                    document.removeEventListener("mousemove", onMouseMove);
+                    document.removeEventListener("mouseup", onMouseUp);
+                }
+
+                document.addEventListener("mousemove", onMouseMove);
+                document.addEventListener("mouseup", onMouseUp);
+            });
+
+            container.appendChild(resizer);
+        });
+
+        // Movimiento fluido
+        container.addEventListener("mousedown", function (e) {
+            if (!e.target || e.target.className === "resizer") return;
+
+            e.preventDefault();
+            const shiftX = e.pageX - container.offsetLeft;
+            const shiftY = e.pageY - container.offsetTop;
 
             function moveAt(pageX, pageY) {
-                img.style.left = pageX - shiftX + "px";
-                img.style.top = pageY - shiftY + "px";
+                container.style.left = pageX - shiftX + "px";
+                container.style.top = pageY - shiftY + "px";
             }
 
             function onMouseMove(e) {
                 moveAt(e.pageX, e.pageY);
             }
 
-            document.addEventListener("mousemove", onMouseMove);
-
-            document.addEventListener("mouseup", function onMouseUp() {
+            function onMouseUp() {
                 document.removeEventListener("mousemove", onMouseMove);
                 document.removeEventListener("mouseup", onMouseUp);
-            });
+            }
+
+            document.addEventListener("mousemove", onMouseMove);
+            document.addEventListener("mouseup", onMouseUp);
         });
 
-        ul.appendChild(image);
+        image.ondragstart = () => false;
+
+        container.appendChild(image);
+        ul.appendChild(container);
+
+        // Selección al hacer clic en la imagen
+        container.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (selectedContainer) {
+                selectedContainer.style.outline = "";
+            }
+            selectedContainer = container;
+            container.style.outline = "2px dashed red";
+        });
     };
 
     read.readAsDataURL(file);
 };
+
+// Deseleccionar al hacer clic afuera
+document.addEventListener("click", function () {
+    if (selectedContainer) {
+        selectedContainer.style.outline = "";
+        selectedContainer = null;
+    }
+});
+
+// Eliminar con Delete
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Delete" && selectedContainer) {
+        selectedContainer.remove();
+        selectedContainer = null;
+    }
+});
