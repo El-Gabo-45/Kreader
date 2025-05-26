@@ -165,7 +165,7 @@ underlinerCustomColor.addEventListener("change", function () {
             if (!confirmed) return;
             hasConfirmedOnceUnderline = true;
         }
-        customButtons[0].remove(); // Elimina el más antiguo
+        customButtons[0].remove(); // Remove the oldest custom color button
     }
     underlineCustomContainer.appendChild(button);
 });
@@ -297,7 +297,7 @@ document.getElementById("imagefile").onchange = function () {
         container.style.display = "inline-block";
         container.style.userSelect = "none";
 
-        // Imagen
+        // Image
         const image = document.createElement("img");
         image.src = url;
         image.style.width = "250px";
@@ -391,7 +391,7 @@ document.getElementById("imagefile").onchange = function () {
             container.appendChild(resizer);
         });
 
-        // Movimiento fluido
+        // Fluid movement
         container.addEventListener("mousedown", function (e) {
             if (!e.target || e.target.className === "resizer") return;
 
@@ -422,7 +422,7 @@ document.getElementById("imagefile").onchange = function () {
         container.appendChild(image);
         ul.appendChild(container);
 
-        // Selección al hacer clic en la imagen
+        // Image selection
         container.addEventListener("click", function (e) {
             e.stopPropagation();
             if (selectedContainer) {
@@ -436,7 +436,7 @@ document.getElementById("imagefile").onchange = function () {
     read.readAsDataURL(file);
 };
 
-// Deseleccionar al hacer clic afuera
+// Deselect image on click outside
 document.addEventListener("click", function () {
     if (selectedContainer) {
         selectedContainer.style.outline = "";
@@ -444,7 +444,7 @@ document.addEventListener("click", function () {
     }
 });
 
-// Eliminar con Delete
+// Delite images with delete/supr
 document.addEventListener("keydown", function (e) {
     if (e.key === "Delete" && selectedContainer) {
         selectedContainer.remove();
