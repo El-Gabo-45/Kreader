@@ -23,6 +23,7 @@ const underlinerCustomColor = document.getElementById("underliner-customcolor");
 
 const highlighterCustomContainer = document.getElementById("customizedcolors");
 const underlineCustomContainer = document.getElementById("customizedcolorsunderline");
+const searchWords = document.getElementById("searchwords");
 
 const canvas = document.getElementById('pdf-canvas');
 const ctx = canvas.getContext('2d');
@@ -450,4 +451,29 @@ document.addEventListener("keydown", function (e) {
         selectedContainer.remove();
         selectedContainer = null;
     }
+});
+
+searchWords.addEventListener("keyup", function () {
+    const term = searchWords.value.trim().toLowerCase();
+    const items = textLayer.querySelectorAll("span");
+
+    items.forEach(function (item) {
+        const originalText = item.textContent;
+
+        // Restaurar el contenido original si no hay término
+        if (!term) {
+            item.innerHTML = originalText;
+            return;
+        }
+
+        const lowerText = originalText.toLowerCase();
+
+        if (lowerText.includes(term)) {
+            const regex = new RegExp(`(${term})`, 'gi');
+            const highlighted = originalText.replace(regex, `<span style="background-color: #111111;">$1</span>`);
+            item.innerHTML = highlighted;
+        } else {
+            item.innerHTML = originalText;
+        }
+    });
 });
