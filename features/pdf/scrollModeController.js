@@ -22,6 +22,7 @@ export function initScrollMode({ url, getCurrentPage }) {
   })
 
   async function enterScrollMode() {
+    if (!url) return
     const pdfjsLib  = window["pdfjs-dist/build/pdf"]
     pdfDoc          = await pdfjsLib.getDocument(url).promise
     const pageInput = document.querySelector(".toolbar__input--page")
@@ -202,6 +203,7 @@ export function initScrollMode({ url, getCurrentPage }) {
     const pageInput = document.querySelector(".toolbar__input--page")
     if (pageInput) pageInput.value = visiblePage
 
+    if (!url) return
     const pdfjsLib = window["pdfjs-dist/build/pdf"]
     pdfjsLib.getDocument(url).promise.then(async doc => {
       const page      = await doc.getPage(visiblePage)

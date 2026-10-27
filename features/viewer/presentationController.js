@@ -12,8 +12,10 @@ export function initPresentation({ pdf, url }) {
   presentationOverlay = createOverlay()
   document.body.appendChild(presentationOverlay)
 
-  const pdfjsLib = window["pdfjs-dist/build/pdf"]
-  pdfjsLib.getDocument(url).promise.then(doc => { pdfDoc = doc })
+  if (url) {
+    const pdfjsLib = window["pdfjs-dist/build/pdf"]
+    pdfjsLib.getDocument(url).promise.then(doc => { pdfDoc = doc })
+  }
 
   initEvents(elements, state, pdf)
 }

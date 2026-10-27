@@ -5,23 +5,35 @@ import { renderSearchAnnotations } from "./features/search/engine.js"
 import { initApp }                 from "./app.js"
 import { loadIcons }               from "./shared/dom/iconLoader.js"
 
-const PDF_URL = "./pdf-_matematicas_basicas-_completo-_09-15.pdf"
-
 document.addEventListener("DOMContentLoaded", async () => {
   await loadIcons()
 
   const dom = createDomMap()
 
-  const pdf = await createPdfRenderer({
-    canvas:         dom.canvas,
-    textLayer:      dom.textLayer,
-    viewer:         dom.viewer,
-    url:            PDF_URL,
-    onPageRendered: (page) => {
-      renderAnnotations(dom.viewer, page)
-      renderSearchAnnotations(page)
-    }
-  })
+  const fileInput = document.getElementById("pdf-file-input")
+  const openBtn   = document.getElementById("pdf-open-btn")
 
-  initApp({ dom, pdf, url: PDF_URL })
+  if (!fileInput || !openBtn) return
+
+  openBtn.addEventListener("click", () => fileInput.click())
+
+  fileInput.addEventListener("change", async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const url = URL.createObjectURL(file)
+
+    const pdf = await createPdfRenderer({
+      canvas:         dom.canvas,
+      textLayer:      dom.textLayer,
+      viewer:         dom.viewer,
+      url,
+      onPageRendered: (page) => {
+        renderAnnotations(dom.viewer, page)
+        renderSearchAnnotations(page)
+      }
+    })
+
+    initApp({ dom, pdf, url })
+  })
 })

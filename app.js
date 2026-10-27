@@ -17,7 +17,8 @@ import { initGrab }                    from "./features/viewer/grabController.js
 
 function initFilename(url) {
   const input = document.querySelector(".toolbar__input--filename")
-  if (input) input.value = url.split("/").pop().replace(".pdf", "").replaceAll("-", " ").trim()
+  if (!input || !url) return
+  input.value = url.split("/").pop().replace(".pdf", "").replaceAll("-", " ").trim()
 }
 
 export async function initApp({ dom, pdf, url }) {
@@ -40,9 +41,9 @@ export async function initApp({ dom, pdf, url }) {
     getCurrentRotation:  pdf.getCurrentRotation
   })
   initAddImage({ viewer: dom.viewer })
-  initPresentation({ pdf, url })
+  if (url) initPresentation({ pdf, url })
   initTheme()
   initThickness()
-  initScrollMode({ url, getCurrentPage: pdf.getCurrentPage })
+  if (url) initScrollMode({ url, getCurrentPage: pdf.getCurrentPage })
   initGrab()
 }
