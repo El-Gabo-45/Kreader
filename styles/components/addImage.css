@@ -1,0 +1,46 @@
+.toolbar__popup__addimage-label {
+  font-size: 0.85rem;
+  white-space: nowrap;
+  color: var(--text-color);
+}
+
+.toolbar__popup__addimage-input {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.2rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  max-width: 9rem;
+}
+
+.toolbar__popup__addimage-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--icon-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+  border-radius: 4px;
+}
+
+.toolbar__popup__addimage-btn:hover {
+  background-color: var(--button-hover);
+}
+
+.toolbar__popup__addimage-input::file-selector-button {
+  background-color: var(--toolbar-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  padding: 0.15rem 0.4rem;
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.toolbar__popup__addimage-input::file-selector-button:hover {
+  background-color: var(--button-hover);
+}

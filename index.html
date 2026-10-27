@@ -1,170 +1,154 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="styles.css">
-    <meta charset="UTF-8">
-    <title>Using my own UI in PDF.js</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-</head>
-<body>
-    <div class="toolbar">
-        <div id="sideview">
-            <button id="sideviewtoggle" class="btn" title="Pages">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-panel-left-dashed-icon lucide-panel-left-dashed"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 14v1"/><path d="M9 19v2"/><path d="M9 3v2"/><path d="M9 9v1"/></svg>
-            </button>
-        </div>
-        <div id="lefttools" class="extratools">
-            <input type="text" id="filename" value="Filename" class="inputcontainer">
-            <button type="button" id="presentation-btn" class="btn" title="Presentation">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-presentation-icon lucide-presentation"><path d="M2 3h20"/><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"/><path d="m7 21 5-5 5 5"/></svg>
-            </button>
-            <button type="button" id="hand-btn" class="btn" title="Grab">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grab-icon lucide-grab"><path d="M18 11.5V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1.4"/><path d="M14 10V8a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 9.9V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v5"/><path d="M6 14a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-4a8 8 0 0 1-8-8 2 2 0 1 1 4 0"/></svg>
-            </button>
-            <div id="ttsreader">
-                <button type="button" id="ttsreader-btn" class="btn" title="Read outloud">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-volume2-icon lucide-volume-2"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg>
-                </button>
-                <div class="links"></div>
-            </div>
-            <button type="button" id="toggle-theme" class="btn theme-toggle-btn" title="Light/Dark mode">
-                <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun-icon lucide-sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-                <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon-icon lucide-moon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-            </button>
-        </div>
-        <div id="centraltools">
-            <button type="button" id="previouspage-btn" class="btn" title="Previous Page">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-            </button>
-            <button type="button" id="nextpage-btn" class="btn" title="Next page">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </button>
-            <div id="pagecounter" value="1">
-                <input type="number" id="pageinput" class="inputcontainer"> / 
-                <span id="totalpages" class="counter"></span>
-            </div>
-            <button type="button" id="search-btn" class="btn" title="Search words">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg>
-            </button>
-            <div id="searchingcontainer" class="toolspopup">
-                <input type="text" id="searchwords" class="inputcontainer">
-                <button type="button" id="previousresult-btn" class="newbtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-                </button>
-                <button type="button" id="nextresult-btn" class="newbtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                </button>
-                <span id="navwords">
-                    <button type="button" id="allhighlighter-btn" class="newbtn-nav">Highlight All</button>
-                    <button type="button" id="allunderliner-btn" class="newbtn-nav">Underline All</button>
-                </span>
-            </div>
-            <button id="zoomin-btn" class="btn" title="Zoom in">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-            </button>
-            <button type="button" id="zoomout-btn" class="btn" title="Zoom out">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-minus-icon lucide-minus"><path d="M5 12h14"/></svg>
-            </button>
-            <button type="button" id="rotate-left" class="btn" title="Rotate to the left">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw-icon lucide-rotate-ccw"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-            </button>
-            <button type="button" id="rotate-btn" class="btn" title="Flip">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-ccw-dot-icon lucide-refresh-ccw-dot"><path d="M3 2v6h6"/><path d="M21 12A9 9 0 0 0 6 5.3L3 8"/><path d="M21 22v-6h-6"/><path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"/><circle cx="12" cy="12" r="1"/></svg>
-            </button>
-            <button type="button" id="rotate-right" class="btn" title="Rotate to the right">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-cw-icon lucide-rotate-cw"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>
-            </button>
-        </div>
-        <div id="righttools" class="utilities">
-            <button type="button" id="highlight-btn" class="btn" title="Highlight">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-highlighter-icon lucide-highlighter"><path d="m9 11-6 6v3h9l3-3"/><path d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"/></svg>
-            </button>
-            <div id="highlighter" class="toolspopup">
-                <span id="highlighter-customcolorcontainer" class="customcolors">
-                    <label for="highlighter-customcolor" class="explanation">Custom Color:</label>
-                    <input type="color" id="highlighter-customcolor" class="colorselector">
-                </span>
-                <div id="defaultcolors" class="highlightcolors">
-                    <button type="button" class="tools-color" data-color="yellow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="#FFEE8C"></circle></svg>
-                    </button>
-                    <button type="button" class="tools-color" data-color="green">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="#AFE354"></circle></svg>
-                    </button>
-                    <button type="button" class="tools-color" data-color="blue">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="#80CEE1"></circle></svg>
-                    </button>
-                    <button type="button" class="tools-color" data-color="pink">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="pink"></circle></svg>
-                    </button>
-                    <button type="button" class="tools-color" data-color="red">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="#FF746C"></circle></svg>
-                    </button>
-                    <div id="customizedcolors" class="highlightcolors"></div>
-                </div>
-                <div id="highlightthicknesscontainer" class="thicknessbar">
-                    <label for="highlightthickness" class="explanation">Thickness:</label>
-                    <input type="range" id="highlightthickness" class="thicknessselector">
-                </div>
-            </div>
-            <button type="button" id="underline-btn" class="btn" title="Underline">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-underline-icon lucide-underline"><path d="M6 4v6a6 6 0 0 0 12 0V4"/><line x1="4" x2="20" y1="20" y2="20"/></svg>
-            </button>
-            <div id="underliner" class="toolspopup">
-                <span id="underline-customcolorcontainer" class="customcolors">
-                    <label for="underliner-customcolor" class="explanation">Custom Color:</label>
-                    <input type="color" id="underliner-customcolor" class="colorselector">
-                </span>
-                <div id="defaultcolorsunderline" class="underlinescolors">
-                    <button type="button" class="tools-color" data-color="yellow">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="#FFEE8C"></circle></svg>
-                    </button>
-                    <button type="button" class="tools-color" data-color="green">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="#AFE354"></circle></svg>
-                    </button>
-                    <button type="button" class="tools-color" data-color="blue">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="#80CEE1"></circle></svg>
-                    </button>
-                    <button type="button" class="tools-color" data-color="pink">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="pink"></circle></svg>
-                    </button>
-                    <button type="button" class="tools-color" data-color="red">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-icon lucide-circle"><circle cx="12" cy="12" r="10" fill="#FF746C"></circle></svg>
-                    </button>
-                    <div id="customizedcolorsunderline" class="underlinecolors"></div>
-                </div>
-                <div id="underlinethicknesscontainer" class="thicknessbar">
-                    <label for="underlinethickness" class="explanation">Thickness:</label>
-                    <input type="range" id="underlinethickness" class="thicknessselector">
-                </div>
-            </div>
-            <button type="button" id="image-btn" class="btn" title="Upload an image">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image-plus-icon lucide-image-plus"><path d="M16 5h6"/><path d="M19 2v6"/><path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/><circle cx="9" cy="9" r="2"/></svg>
-            </button>
-            <div id="imagecontainer" class="toolspopup">
-                <input type="file" id="imagefile" accept="image/*" class="inputcontainer" style="display:none;">
-                <label for="imagefile" id="uploadimage">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image-plus-icon lucide-image-plus"><path d="M16 5h6"/><path d="M19 2v6"/><path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/><circle cx="9" cy="9" r="2"/></svg>
-                </label>
-                <label for="imagefile" id="textlabel">Add image</label>             
-            </div>
-            <button type="button" id="sign-btn" class="btn" title="Add a sign">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-signature-icon lucide-signature"><path d="m21 17-2.156-1.868A.5.5 0 0 0 18 15.5v.5a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1c0-2.545-3.991-3.97-8.5-4a1 1 0 0 0 0 5c4.153 0 4.745-11.295 5.708-13.5a2.5 2.5 0 1 1 3.31 3.284"/><path d="M3 21h18"/></svg>
-            </button>
-        </div>
-    </div>
-    <div style="position: relative;" id="viewer" class="viewerbox">
-    <canvas id="pdf-canvas" class="viewerbox"></canvas>
-    <div id="text-layer" class="textLayer" style="position: absolute; top: 0px; left: 0; right: 0;"></div>
-    </div>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Web Page</title>
+        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
+        <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.js" defer></script>
+        <script type="module" src="./main.js" defer></script>
+    </head>
+    <body>
+        <nav class="toolbar">
+            <button class="toolbar__button toolbar__button--sidebar" aria-label="Toggle sidebar" data-icon="pagesview"></button>
 
-    <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-      </script>
-    <script type="module" src="main.js"></script>
+            <section class="toolbar__popup">
+                <nav class="toolbar__popup toolbar__popup--options">
+                    <button class="toolbar__button toolbar__button--pages" aria-label="Pages" data-icon="pages"></button>
+                    <button class="toolbar__button toolbar__button--chapters" aria-label="Chapters" data-icon="list"></button>
+                    <button class="toolbar__button toolbar__button--annotations" aria-label="Annotations" data-icon="annotations"></button>
+                </nav>
+                <div class="toolbar__popup toolbar__popup--infoWrapper"></div>
+            </section>
 
-</body>
+            <section class="toolbar__tools toolbar__tools--secondary">
+                <input type="text" class="toolbar__input toolbar__input--filename" placeholder="File name" aria-label="File name">
+                <button class="toolbar__button toolbar__button--presentation" aria-label="Presentation mode" data-icon="presentation"></button>
+                <button class="toolbar__button toolbar__button--grab"         aria-label="Grab mode"         data-icon="grab"></button>
+                <button class="toolbar__button toolbar__button--tts"          aria-label="Text to speech"    data-icon="speaker"></button>
+                <div class="toolbar__popup"></div>
+                <button class="toolbar__button toolbar__button--themeswitch" aria-label="Toggle theme">
+                    <span data-icon="moon"></span>
+                    <span data-icon="sun" style="display:none"></span>
+                </button>
+            </section>
+
+            <section class="toolbar__tools toolbar__tools--navegation">
+                <button class="toolbar__button toolbar__button--prev"        aria-label="Previous page" data-icon="previous"></button>
+                <button class="toolbar__button toolbar__button--next"        aria-label="Next page"     data-icon="next"></button>
+                <input type="number" class="toolbar__input toolbar__input--page" aria-label="Current page">
+                <span class="toolbar__input toolbar__input--total">
+                    <label class="toolbar__input__label">/</label>
+                </span>
+
+                <div class="toolbar__button-wrapper">
+                    <button class="toolbar__button toolbar__button--search" aria-label="Search" data-icon="search"></button>
+                    <div class="toolbar__popup toolbar__popup--search">
+                        <input type="text" class="toolbar__popup__search-input" aria-label="Search text">
+                        <button class="toolbar__popup__search-button toolbar__popup__search-button--prev"      aria-label="Previous match" data-icon="previous"></button>
+                        <button class="toolbar__popup__search-button toolbar__popup__search-button--next"      aria-label="Next match"     data-icon="next"></button>
+                        <button class="toolbar__popup__search-button toolbar__popup__search-button--highlight" aria-label="Highlight matches">Highlight</button>
+                        <button class="toolbar__popup__search-button toolbar__popup__search-button--underline" aria-label="Underline matches">Underline</button>
+                    </div>
+                </div>
+
+                <button class="toolbar__button toolbar__button--zoom-in"     aria-label="Zoom in"       data-icon="plus"></button>
+                <button class="toolbar__button toolbar__button--zoom-out"    aria-label="Zoom out"      data-icon="minus"></button>
+                <button class="toolbar__button toolbar__button--scroll-mode" aria-label="Vertical view" data-icon="vertical-view"></button>
+                <button class="toolbar__button toolbar__button--rotateleft"  aria-label="Rotate left"   data-icon="rotate-left"></button>
+                <button class="toolbar__button toolbar__button--flip"        aria-label="Flip 180°"     data-icon="rotate"></button>
+                <button class="toolbar__button toolbar__button--rotateright" aria-label="Rotate right"  data-icon="rotate-right"></button>
+            </section>
+
+            <section class="toolbar__tools toolbar__tools--primary">
+
+                <div class="toolbar__button-wrapper">
+                    <button class="toolbar__button toolbar__button--highlight" aria-label="Highlight text" data-icon="highlighter"></button>
+                    <div class="toolbar__popup toolbar__popup--highlight">
+                        <div class="toolbar__popup__customcolor">
+                            <label class="toolbar__popup__customcolor-label">Custom Color:</label>
+                            <input type="text" class="toolbar__popup__customcolor-input" readonly placeholder="#000000" aria-label="Custom highlight color">
+                        </div>
+                        <div class="toolbar__popup-colors">
+                            <button class="toolbar__popup__color toolbar__popup__color--default" aria-label="Yellow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FFEE8C"/></svg>
+                            </button>
+                            <button class="toolbar__popup__color toolbar__popup__color--default" aria-label="Green">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#AFE354"/></svg>
+                            </button>
+                            <button class="toolbar__popup__color toolbar__popup__color--default" aria-label="Blue">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#80CEE1"/></svg>
+                            </button>
+                            <button class="toolbar__popup__color toolbar__popup__color--default" aria-label="Pink">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="pink"/></svg>
+                            </button>
+                            <button class="toolbar__popup__color toolbar__popup__color--default" aria-label="Red">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FF746C"/></svg>
+                            </button>
+                        </div>
+                        <div class="toolbar__popup-thickness">
+                            <label class="toolbar__popup__thickness-label">Thickness:</label>
+                            <input type="range" class="toolbar__popup__thickness-input" max="50" aria-label="Highlight thickness">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toolbar__button-wrapper">
+                    <button class="toolbar__button toolbar__button--underline" aria-label="Underline text" data-icon="underline"></button>
+                    <div class="toolbar__popup toolbar__popup--underline">
+                        <div class="toolbar__popup__customcolor">
+                            <label class="toolbar__popup__customcolor-label">Custom Color:</label>
+                            <input type="text" class="toolbar__popup__customcolor-input" readonly placeholder="#000000" aria-label="Custom underline color">
+                        </div>
+                        <div class="toolbar__popup-colors">
+                            <button class="toolbar__popup__color toolbar__popup__color--default" aria-label="Yellow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FFEE8C"/></svg>
+                            </button>
+                            <button class="toolbar__popup__color toolbar__popup__color--default" aria-label="Green">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#AFE354"/></svg>
+                            </button>
+                            <button class="toolbar__popup__color toolbar__popup__color--default" aria-label="Blue">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#80CEE1"/></svg>
+                            </button>
+                            <button class="toolbar__popup__color toolbar__popup__color--default" aria-label="Pink">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="pink"/></svg>
+                            </button>
+                            <button class="toolbar__popup__color toolbar__popup__color--default" aria-label="Red">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FF746C"/></svg>
+                            </button>
+                        </div>
+                        <div class="toolbar__popup-thickness">
+                            <label class="toolbar__popup__thickness-label">Thickness:</label>
+                            <input type="range" class="toolbar__popup__thickness-input" max="50" aria-label="Underline thickness">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toolbar__button-wrapper">
+                    <button class="toolbar__button toolbar__button--addimage" aria-label="Add image" data-icon="addpicture"></button>
+                    <div class="toolbar__popup toolbar__popup--addimage">
+                        <label class="toolbar__popup__addimage-label">Add Image</label>
+                        <button class="toolbar__popup__addimage-btn" aria-label="Upload image" data-icon="upload"></button>
+                        <input type="file" class="toolbar__popup__addimage-input" accept="image/*" style="display:none" aria-label="Select image file">
+                    </div>
+                </div>
+
+                <div class="toolbar__button-wrapper">
+                    <button class="toolbar__button toolbar__button--signature" aria-label="Add signature" data-icon="sign"></button>
+                    <div class="toolbar__popup"></div>
+                </div>
+
+            </section>
+        </nav>
+
+        <main class="pdfviewer">
+            <div id="viewer" class="pdfviewer__container">
+                <canvas id="pdf-canvas"></canvas>
+                <div id="text-layer" class="textLayer"></div>
+            </div>
+        </main>
+    </body>
 </html>

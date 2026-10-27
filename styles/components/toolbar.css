@@ -1,0 +1,29 @@
+.toolbar {
+  box-sizing: border-box;
+  align-items: center;
+  display: flex;
+  background-color: rgb(255, 235, 198);
+  height: 3.1rem;
+  width: 100%;
+  position: fixed;
+  z-index: 1000;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.toolbar__button,
+.toolbar__popup__search-button,
+.toolbar__popup__color {
+  cursor: pointer;
+}
+
+.toolbar__button,
+.toolbar__popup__color,
+.toolbar__popup__search-button {
+  background: none;
+  border: none;
+}
+
+.toolbar__button:focus,
+.toolbar__button:focus-visible {
+  outline: none;
+}

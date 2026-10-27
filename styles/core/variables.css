@@ -1,0 +1,25 @@
+:root {
+  --toolbar-height: 3.1rem;
+  --primary-font: Arial, sans-serif;
+  --primary-font-size: 1rem;
+
+  --toolbar-bg: rgb(255, 235, 198);
+  --popup-bg: rgb(255, 235, 198);
+  --body-bg: rgb(245, 245, 240);
+  --text-color: #1a1a1a;
+  --icon-color: #1a1a1a;
+  --input-bg: rgb(255, 254, 215);
+  --border-color: #000;
+  --button-hover: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+  --toolbar-bg: rgb(40, 35, 28);
+  --popup-bg: rgb(50, 44, 35);
+  --body-bg: rgb(25, 22, 18);
+  --text-color: rgb(220, 210, 195);
+  --icon-color: rgb(220, 210, 195);
+  --input-bg: rgb(60, 53, 42);
+  --border-color: rgb(100, 88, 70);
+  --button-hover: rgba(255, 255, 255, 0.08);
+}

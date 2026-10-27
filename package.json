@@ -1,0 +1,19 @@
+{
+  "name": "reader",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "PDF reader (vanilla JS)",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "main": "main.js",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

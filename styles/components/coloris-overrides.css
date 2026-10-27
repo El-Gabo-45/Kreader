@@ -1,0 +1,26 @@
+.clr-field {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0;
+}
+
+.clr-field input {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.clr-field button,
+#clr-format,
+.clr-alpha,
+#clr-clear {
+  display: none !important;
+}
+
+.clr-picker {
+  margin-top: 1rem;
+}

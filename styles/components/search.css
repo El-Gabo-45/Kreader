@@ -1,0 +1,65 @@
+.toolbar__input--filename,
+.toolbar__popup__search-input {
+  width: 8rem;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: none;
+  outline: none;
+}
+
+.toolbar__popup__search-input {
+  height: 30px;
+}
+
+.toolbar__input--page {
+  width: 3rem;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.toolbar__popup__customcolor-input {
+  height: 2rem;
+  width: 2rem;
+}
+
+.toolbar__popup__search-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--icon-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.4rem;
+}
+
+.toolbar__popup__search-button:hover {
+  background-color: var(--button-hover);
+  border-radius: 4px;
+}
+
+.search-overlay {
+  background-color: rgba(255, 235, 0, 0.6);
+  border-radius: 2px;
+}
+
+.search-overlay--active {
+  background-color: rgba(255, 140, 0, 0.7);
+  border-radius: 2px;
+  outline: 2px solid rgba(255, 100, 0, 0.9);
+}
+
+.highlight {
+  mix-blend-mode: multiply;
+  border-radius: 2px;
+}
+
+.underline-annotation {
+  border-radius: 2px;
+}
+
+.annotation-overlay--underline {
+  background-color: black !important;
+  height: 2px;
+}

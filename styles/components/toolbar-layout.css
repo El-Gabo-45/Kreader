@@ -1,0 +1,29 @@
+.toolbar {
+  background-color: var(--toolbar-bg);
+  transition: background-color 0.2s;
+}
+
+.toolbar__button--sidebar{
+  display:flex;
+  justify-content:center;
+}
+
+.toolbar__tools--secondary{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.toolbar__tools--navegation{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:auto;
+}
+
+.toolbar__tools--primary{
+  position:relative;
+  display:flex;
+  justify-content:center;
+  margin-left:auto;
+}

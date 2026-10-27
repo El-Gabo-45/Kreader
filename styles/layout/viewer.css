@@ -1,0 +1,65 @@
+.pdfviewer {
+  position: absolute;
+  top: 3.1rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
+
+#viewer {
+  position: relative;
+  margin: 0 auto;
+  width: fit-content;
+  height: fit-content;
+  --scale-factor: 1.5;
+}
+
+#pdf-canvas {
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+.textLayer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  line-height: 1;
+  pointer-events: auto;
+  user-select: text;
+}
+
+.textLayer span {
+  position: absolute;
+  white-space: pre;
+  transform-origin: 0% 0%;
+  color: transparent;
+}
+
+.textLayer span::selection {
+  background: rgba(0, 120, 255, 0.3);
+}
+
+body {
+  background-color: var(--body-bg);
+  color: var(--text-color);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.toolbar {
+  color: var(--icon-color);
+  transition: color 0.2s;
+}
+
+.toolbar__button {
+  color: var(--icon-color);
+}
+
+.toolbar__input {
+  color: var(--text-color);
+  background-color: var(--input-bg);
+}
